@@ -12,20 +12,20 @@ Cosas Listas:
 
 Cosas por hacer:
 -Personaje:	sprites
-			movimiento
-			salto
-			mirar alrededor
+		movimiento
+		salto
+		mirar alrededor
 -Coleccionables:	colisiones
-					display de cuantos lleva y cuantos le faltan					
+			display de cuantos lleva y cuantos le faltan					
 -Meta
 -Checkpoints + Caerse al abismo
 
 Bonus:
 -Personaje:	escalar
-			agarrarse de esquinas y bordes
-			música
-			sprites personalizados
-			ocupar git (listo)
+		agarrarse de esquinas y bordes
+		música
+		sprites personalizados
+		ocupar git (listo)
 
 
 					
