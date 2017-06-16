@@ -4,6 +4,9 @@ Tarea3 Gráfica
 Controles actuales:
 "q" y "e" para rotar la cámara.
 
+Testing
+"w" y "s" para subir y bajar la cámara.
+
 Cosas Listas:
 -Cámara en Paralelo
 -Rotacion de la cámara
