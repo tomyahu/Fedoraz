@@ -31,10 +31,10 @@ function Start () {
 function FixedUpdate () {
 	
 	//si el jugador apreta q, se gira la camara hacia la izquierda
-	if(Input.GetKey("q") && a == 0)
+	if(Input.GetKey("q") && a == 0 && PlayerConditions())
 		a = -1;
 	//si el jugador apreta e, se gira hacia la derecha
-	else if(Input.GetKey("e") && a == 0)
+	else if(Input.GetKey("e") && a == 0 && PlayerConditions())
 		a = 1;
 	//caso en que se este cerca de los 90 grados con un margen de error de "error"
 	else if(cerca(90.0,transform.eulerAngles.y,error)){
@@ -91,6 +91,11 @@ function FixedUpdate () {
     aux.z *= 0;
     
     player.transform.localRotation = aux;
+    
+}
+
+function PlayerConditions () {
+	return player.GetComponent(PlayerManager).Quieto;
 }
 
 //funcion para decir si el valor "aprox" esta a a lo mas "epsilon" del valor "val"

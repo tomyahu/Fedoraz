@@ -4,9 +4,11 @@
 private var anim : Animator;
 
 //RigidBody
-private var rb : Rigidbody;
+@HideInInspector
+public var rb : Rigidbody;
 
 //Variables para saltar
+@HideInInspector
 public var Jumping : boolean = true;
 public var jumpSpeed : int;
 
@@ -14,8 +16,13 @@ public var jumpSpeed : int;
 public var walkSpeed: int;
 
 //Variables para Animacion
+@HideInInspector
 public var temp : Vector3;
 
+//Variables de Rotacion
+@HideInInspector
+public var Quieto : boolean = false;
+private var framesParaQuieto : int;
 public var rot : GameObject;
 
 //errores
@@ -36,6 +43,7 @@ function Update () {
 	//Saltar
 	if (Input.GetKey("space") && !Jumping)
 	{
+		Quieto = false;
 		Jumping = true;
 		Jump();
 	}
@@ -44,8 +52,20 @@ function Update () {
 	//Reset Animation
 	if (!Input.GetKey("space") && !Input.GetKey("a") && !Input.GetKey("d") && !Jumping)
 	{
+		if(framesParaQuieto <= 0)
+		{
+			Quieto = true;
+		}
+		else
+		{
+			framesParaQuieto--;
+		}
 		anim.SetInteger("State",0);
 		rb.velocity = Vector3(0, rb.velocity.y, 0);
+	}
+	else
+	{
+		framesParaQuieto = 5;
 	}
 		
 	//Evitar inclinacion
@@ -58,8 +78,6 @@ function Update () {
 
 function walk() {
 
-	print(rot.transform.localRotation.y);
-	
 	if (cerca(0,rot.transform.eulerAngles.y,1))
 		walkS();
 	else if (cerca(180,rot.transform.eulerAngles.y,1))
@@ -78,6 +96,7 @@ function walkS() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -92,6 +111,7 @@ function walkS() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -110,6 +130,7 @@ function walkN() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -124,6 +145,7 @@ function walkN() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -142,6 +164,7 @@ function walkW() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -156,6 +179,7 @@ function walkW() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -174,6 +198,7 @@ function walkE() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -188,6 +213,7 @@ function walkE() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		

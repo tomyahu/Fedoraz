@@ -1,10 +1,8 @@
 ﻿#pragma strict
 
 //Variable para saber a que distancia del centro esta el jugador en todo momento
-public var player : GameObject;
 public var distZ : float;
 private var isPressed : boolean;
-private var temp : Vector3;
 private var temp2 : Vector3;
 
 
