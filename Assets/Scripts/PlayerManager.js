@@ -22,7 +22,7 @@ public var temp : Vector3;
 //Variables de Rotacion
 @HideInInspector
 public var Quieto : boolean = false;
-private var framesParaQuieto : int;
+public var tempZ : Vector3;
 public var rot : GameObject;
 
 //errores
@@ -38,6 +38,10 @@ function Start () {
 
 function Update () {
 
+	//Actualizar Posicion
+	tempZ.x = transform.localPosition.x;
+	tempZ.y = transform.localPosition.y;
+	
 	walk();
 	
 	//Saltar
@@ -52,20 +56,9 @@ function Update () {
 	//Reset Animation
 	if (!Input.GetKey("space") && !Input.GetKey("a") && !Input.GetKey("d") && !Jumping)
 	{
-		if(framesParaQuieto <= 0)
-		{
-			Quieto = true;
-		}
-		else
-		{
-			framesParaQuieto--;
-		}
+		Quieto = true;
 		anim.SetInteger("State",0);
 		rb.velocity = Vector3(0, rb.velocity.y, 0);
-	}
-	else
-	{
-		framesParaQuieto = 5;
 	}
 		
 	//Evitar inclinacion
@@ -244,6 +237,15 @@ function OnCollisionEnter(other : Collision)
 		Jumping = false;
 		anim.SetInteger("State",0);
 	}
+}
+
+function OnCollisionStay(plat : Collision)
+{
+	if(plat.gameObject.tag == "Plataforma" && !Quieto)
+	{
+		tempZ = transform.localPosition;
+		tempZ.z = plat.gameObject.GetComponent(Zdistance).distZ;
+	}	
 }
 
 function cerca (val : float,aprox : float, epsilon : float) {
