@@ -4,9 +4,11 @@
 private var anim : Animator;
 
 //RigidBody
-private var rb : Rigidbody;
+@HideInInspector
+public var rb : Rigidbody;
 
 //Variables para saltar
+@HideInInspector
 public var Jumping : boolean = true;
 public var jumpSpeed : int;
 
@@ -14,8 +16,13 @@ public var jumpSpeed : int;
 public var walkSpeed: int;
 
 //Variables para Animacion
+@HideInInspector
 public var temp : Vector3;
 
+//Variables de Rotacion
+@HideInInspector
+public var Quieto : boolean = false;
+public var tempZ : Vector3;
 public var rot : GameObject;
 
 //errores
@@ -31,11 +38,16 @@ function Start () {
 
 function Update () {
 
+	//Actualizar Posicion
+	tempZ.x = transform.localPosition.x;
+	tempZ.y = transform.localPosition.y;
+	
 	walk();
 	
 	//Saltar
 	if (Input.GetKey("space") && !Jumping)
 	{
+		Quieto = false;
 		Jumping = true;
 		Jump();
 	}
@@ -44,6 +56,7 @@ function Update () {
 	//Reset Animation
 	if (!Input.GetKey("space") && !Input.GetKey("a") && !Input.GetKey("d") && !Jumping)
 	{
+		Quieto = true;
 		anim.SetInteger("State",0);
 		rb.velocity = Vector3(0, rb.velocity.y, 0);
 	}
@@ -58,8 +71,6 @@ function Update () {
 
 function walk() {
 
-	print(rot.transform.localRotation.y);
-	
 	if (cerca(0,rot.transform.eulerAngles.y,1))
 		walkS();
 	else if (cerca(180,rot.transform.eulerAngles.y,1))
@@ -78,6 +89,7 @@ function walkS() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -92,6 +104,7 @@ function walkS() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -110,6 +123,7 @@ function walkN() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -124,6 +138,7 @@ function walkN() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -142,6 +157,7 @@ function walkW() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -156,6 +172,7 @@ function walkW() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -174,6 +191,7 @@ function walkE() {
 
 	if (Input.GetKey("d") && !Input.GetKey("a"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -188,6 +206,7 @@ function walkE() {
 	}
 	else if (Input.GetKey("a") && !Input.GetKey("d"))
 	{
+		Quieto = false;
 		if (anim.GetInteger("State") == 0)
 			anim.SetInteger("State",1);
 		
@@ -218,6 +237,15 @@ function OnCollisionEnter(other : Collision)
 		Jumping = false;
 		anim.SetInteger("State",0);
 	}
+}
+
+function OnCollisionStay(plat : Collision)
+{
+	if(plat.gameObject.tag == "Plataforma" && !Quieto)
+	{
+		tempZ = transform.localPosition;
+		tempZ.z = plat.gameObject.GetComponent(Zdistance).distZ;
+	}	
 }
 
 function cerca (val : float,aprox : float, epsilon : float) {

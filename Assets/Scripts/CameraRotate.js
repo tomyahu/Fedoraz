@@ -32,10 +32,20 @@ function FixedUpdate () {
 	
 	//si el jugador apreta q, se gira la camara hacia la izquierda
 	if(Input.GetKey("q") && a == 0)
+	{
 		a = -1;
+		player.transform.localPosition = player.GetComponent(PlayerManager).tempZ;
+		player.GetComponent(PlayerManager).rb.velocity =  Vector3(0, player.GetComponent(PlayerManager).rb.velocity.y, 0);
+		player.GetComponent(PlayerManager).tempZ.z = -player.GetComponent(PlayerManager).tempZ.x;
+	}
 	//si el jugador apreta e, se gira hacia la derecha
 	else if(Input.GetKey("e") && a == 0)
+	{
 		a = 1;
+		player.transform.localPosition = player.GetComponent(PlayerManager).tempZ;
+		player.GetComponent(PlayerManager).rb.velocity =  Vector3(0, player.GetComponent(PlayerManager).rb.velocity.y, 0);
+		player.GetComponent(PlayerManager).tempZ.z = player.GetComponent(PlayerManager).tempZ.x;
+	}
 	//caso en que se este cerca de los 90 grados con un margen de error de "error"
 	else if(cerca(90.0,transform.eulerAngles.y,error)){
 		if (a != 0)
@@ -91,6 +101,7 @@ function FixedUpdate () {
     aux.z *= 0;
     
     player.transform.localRotation = aux;
+    
 }
 
 //funcion para decir si el valor "aprox" esta a a lo mas "epsilon" del valor "val"
