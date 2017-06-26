@@ -57,7 +57,7 @@ function Update () {
 		Jump();
 	}
 	
-	if(Jumping && rb.velocity.y > 0 && cerca(transform.localPosition.z,-47.5,0.5))
+	if(Jumping && rb.velocity.y > 0 && cerca(transform.localPosition.z,-47.5,2.5))
 	{
 		transform.localPosition = Vector3(transform.localPosition.x,transform.localPosition.y,-52.5);
 	}
