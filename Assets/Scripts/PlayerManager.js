@@ -20,10 +20,13 @@ public var walkSpeed: int;
 public var temp : Vector3;
 
 //Variables de Rotacion
-@HideInInspector
 public var Quieto : boolean = false;
+private var framesParaQuieto : int = 24;
 public var tempZ : Vector3;
 public var rot : GameObject;
+
+//Variables para volver arriba cuando uno se cae
+public var rememberTemp : Vector3;
 
 //errores
 var errorRot : float;
@@ -34,6 +37,8 @@ function Start () {
 	
 	rb.isKinematic = false;
 	temp = transform.localScale;
+	
+	rememberTemp = transform.localPosition;
 }
 
 function Update () {
@@ -52,14 +57,29 @@ function Update () {
 		Jump();
 	}
 	
+	if(Jumping && rb.velocity.y > 0 && cerca(transform.localPosition.z,-47.5,2.5))
+	{
+		transform.localPosition = Vector3(transform.localPosition.x,transform.localPosition.y,-52.5);
+	}
+	else if(Jumping && rb.velocity.y <= 0 && cerca(transform.localPosition.z,-52.5,0.5))
+	{
+		transform.localPosition = Vector3(transform.localPosition.x,transform.localPosition.y,-47.5);
+	}
+	//mantener en un rango a player en z
+	
 	
 	//Reset Animation
 	if (!Input.GetKey("space") && !Input.GetKey("a") && !Input.GetKey("d") && !Jumping)
 	{
-		Quieto = true;
+		if (framesParaQuieto <= 0)
+			Quieto = true;
+		else if(!Quieto)
+			framesParaQuieto--;
 		anim.SetInteger("State",0);
 		rb.velocity = Vector3(0, rb.velocity.y, 0);
 	}
+	else
+		framesParaQuieto = 24;
 		
 	//Evitar inclinacion
 	if (!cerca(0.0,transform.eulerAngles.x,errorRot))
@@ -229,7 +249,7 @@ function Jump () {
 
 }
 
-//En caso de que choque con otro objeto
+//En caso de que colisione con otro objeto
 function OnCollisionEnter(other : Collision)
 {
 	if(other.gameObject.tag == "Plataforma" && Jumping)
@@ -237,15 +257,24 @@ function OnCollisionEnter(other : Collision)
 		Jumping = false;
 		anim.SetInteger("State",0);
 	}
-}
-
-function OnCollisionStay(plat : Collision)
-{
-	if(plat.gameObject.tag == "Plataforma" && !Quieto)
+	if(other.gameObject.tag == "Plataforma" && !Quieto)
 	{
 		tempZ = transform.localPosition;
-		tempZ.z = plat.gameObject.GetComponent(Zdistance).distZ;
-	}	
+		tempZ.z = other.gameObject.GetComponent(Zdistance).distZ;
+	}
+}
+
+//En caso de que este en contacto con otro objeto
+function OnCollisionStay(other : Collision)
+{
+	if(other.gameObject.tag == "Plataforma")
+	{
+		rememberTemp = transform.localPosition;
+	}
+	if(other.gameObject.tag == "Muerte")
+	{
+		transform.localPosition = rememberTemp;
+	}
 }
 
 function cerca (val : float,aprox : float, epsilon : float) {
