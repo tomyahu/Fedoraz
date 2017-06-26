@@ -16,12 +16,15 @@ Cosas Listas:
 		salto
 		mirar alrededor
 
+-Caerse al abismo
+
+-Coleccionables:	colisiones
+			display de cuantos lleva
 
 Cosas por hacer:
--Coleccionables:	colisiones
-			display de cuantos lleva y cuantos le faltan					
+-Coleccionables: display de cuantos le faltan
 -Meta
--Checkpoints + Caerse al abismo
+
 
 Bonus:
 -Personaje:	escalar
