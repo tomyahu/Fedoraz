@@ -282,3 +282,12 @@ function cerca (val : float,aprox : float, epsilon : float) {
 	return (val - aprox < epsilon) && (val - aprox > -epsilon);
 	
 }
+function win () {
+	var aux = rb.velocity;
+	aux.y = 20;
+	rb.velocity = aux;
+	
+	rb.drag = 0;
+	
+	rb.useGravity = false;
+}
